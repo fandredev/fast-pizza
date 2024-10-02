@@ -1,10 +1,10 @@
 // https://uibakery.io/regex-library/phone-number
-// const isValidPhone = (str: string) =>
-//   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
-//     str
-//   );
+const isValidPhone = (str: string) =>
+  /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
+    str
+  );
 
-import { Form, redirect } from "react-router-dom";
+import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 import { Cart } from "../cart/Cart";
 
@@ -32,9 +32,17 @@ const fakeCart = [
   },
 ];
 
+type FormErrors = {
+  phone?: string;
+};
+
 export default function CreateOrder() {
   // const [withPriority, setWithPriority] = useState(false);
   const cart = fakeCart;
+  const navigation = useNavigation();
+  const formErrors = useActionData() as FormErrors;
+
+  const isSubmitting = navigation.state === "submitting";
 
   return (
     <div>
@@ -51,6 +59,7 @@ export default function CreateOrder() {
           <div>
             <input type="tel" name="phone" required />
           </div>
+          {formErrors?.phone && <div>{formErrors.phone}</div>}
         </div>
 
         <div>
@@ -73,7 +82,9 @@ export default function CreateOrder() {
 
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <button>Order now</button>
+          <button disabled={isSubmitting}>
+            {isSubmitting ? "Place order..." : "Order now"}
+          </button>
         </div>
       </Form>
     </div>
@@ -92,7 +103,19 @@ export async function action({ request }: { request: Request }) {
     address: data.address as string,
   };
 
-  const newOrder = await createOrder(order);
+  const errors = {
+    phone: "",
+  };
+
+  if (!isValidPhone(order.phone)) {
+    errors["phone"] = "Invalid phone number";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return errors;
+  }
+
+  const newOrder = await createOrder(order); // Se tudo der certo, cria a ordem no banco de dados
 
   return redirect(`/order/${newOrder.id}`);
 }
