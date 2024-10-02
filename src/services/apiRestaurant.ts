@@ -1,4 +1,4 @@
-import { GetMenuPizzas } from "./interfaces/restaurant";
+import { GetMenuPizzas, OrderProps } from "./interfaces/restaurant";
 
 const API_URL = 'https://react-fast-pizza-api.onrender.com/api';
 
@@ -21,7 +21,7 @@ export async function getOrder(id: number) {
   return data;
 }
 
-export async function createOrder(newOrder: { items: string[] }) {
+export async function createOrder(newOrder: OrderProps): Promise<OrderProps & { id: string }> {
   try {
     const res = await fetch(`${API_URL}/order`, {
       method: 'POST',

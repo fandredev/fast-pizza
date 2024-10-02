@@ -4,6 +4,10 @@
 //     str
 //   );
 
+import { Form, redirect } from "react-router-dom";
+import { createOrder } from "../../services/apiRestaurant";
+import { Cart } from "../cart/Cart";
+
 const fakeCart = [
   {
     pizzaId: 12,
@@ -32,13 +36,11 @@ export default function CreateOrder() {
   // const [withPriority, setWithPriority] = useState(false);
   const cart = fakeCart;
 
-  console.log(cart);
-
   return (
     <div>
       <h2>Ready to order? Let's go!</h2>
 
-      <form>
+      <Form method="POST" action="/order/new">
         <div>
           <label>First Name</label>
           <input type="text" name="customer" required />
@@ -70,9 +72,27 @@ export default function CreateOrder() {
         </div>
 
         <div>
+          <input type="hidden" name="cart" value={JSON.stringify(cart)} />
           <button>Order now</button>
         </div>
-      </form>
+      </Form>
     </div>
   );
+}
+
+export async function action({ request }: { request: Request }) {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData.entries());
+
+  const order = {
+    cart: JSON.parse(data.cart as string) as unknown as Cart[],
+    priority: data.priority === "on",
+    customer: data.customer as string,
+    phone: data.phone as string,
+    address: data.address as string,
+  };
+
+  const newOrder = await createOrder(order);
+
+  return redirect(`/order/${newOrder.id}`);
 }
