@@ -1,14 +1,8 @@
+import { GetMenuPizzas } from "../../services/interfaces/restaurant";
 import { formatCurrency } from "../../utils/helpers";
 
 interface MenuItemProps {
-  pizza: {
-    id: number;
-    name: string;
-    unitPrice: number;
-    ingredients: string[];
-    soldOut: boolean;
-    imageUrl: string;
-  };
+  pizza: GetMenuPizzas;
 }
 
 export default function MenuItem({ pizza }: MenuItemProps) {
