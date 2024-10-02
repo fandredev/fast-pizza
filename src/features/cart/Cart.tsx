@@ -34,7 +34,6 @@ const fakeCart: Cart[] = [
 
 export default function Cart() {
   const cart = fakeCart;
-  console.log(cart);
 
   return (
     <div>
