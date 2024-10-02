@@ -3,7 +3,7 @@ import { GetMenuPizzas } from "../../services/interfaces/restaurant";
 import MenuItem from "./MenuItem";
 
 export default function Menu() {
-  const menuData = useLoaderData() as GetMenuPizzas[]; // This will be the data returned by the loader
+  const menuData = useLoaderData() as GetMenuPizzas[];
 
   return (
     <ul>
