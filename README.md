@@ -4,8 +4,8 @@
 
 ### Other tools:
 
-- [Prettier](https://eslint.org/)
-- [Eslint](https://prettier.io/)
+- [Prettier](https://prettier.io/)
+- [Eslint](https://eslint.org/)
 - [asdf](https://asdf-vm.com/)
 
 ## Authors
