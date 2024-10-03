@@ -1,50 +1,43 @@
-# React + TypeScript + Vite
+# Stack used
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<img src="https://skillicons.dev/icons?i=typescript,react,yarn,git,vite,tailwind,vercel&theme=dark" alt="typescript,react,yarn,git,vite,tailwind,vercel" />
 
-Currently, two official plugins are available:
+### Other tools:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Prettier](https://eslint.org/)
+- [Eslint](https://prettier.io/)
+- [asdf](https://asdf-vm.com/)
 
-## Expanding the ESLint configuration
+## Authors
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- [Me](https://www.linkedin.com/in/devfandre/)
 
-- Configure the top-level `parserOptions` property like this:
+## Clone this repo
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+git clone git@github.com:fandredev/fast-react-pizza.git
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Go to directory
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
 ```
+ cd fast-react-pizza
+```
+
+## Install dependencies
+
+```
+ yarn install
+```
+
+## Run server
+
+```
+ yarn run dev
+```
+
+## :mailbox_with_no_mail: Contacts
+
+E-mail: profissionalf.andre@gmail.com<br>
+Linkedin: https://www.linkedin.com/in/devfandre/<br>
+Portfólio: https://developer-felipe-andre.vercel.app/<br>
