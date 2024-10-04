@@ -1,6 +1,6 @@
 # Stack used
 
-<img src="https://skillicons.dev/icons?i=typescript,react,yarn,git,vite,tailwind,vercel&theme=dark" alt="typescript,react,yarn,git,vite,tailwind,vercel" />
+<img src="https://skillicons.dev/icons?i=typescript,react,redux,yarn,git,vite,tailwind,vercel&theme=dark" alt="typescript,react,redux,yarn,git,vite,tailwind,vercel" />
 
 ### Other tools:
 
