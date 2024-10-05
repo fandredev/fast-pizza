@@ -8,6 +8,8 @@ import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 import { Cart } from "../cart/Cart";
 import Button from "../../ui/Button";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 const fakeCart = [
   {
@@ -42,6 +44,7 @@ export default function CreateOrder() {
   const cart = fakeCart;
   const navigation = useNavigation();
   const formErrors = useActionData() as FormErrors;
+  const username = useSelector((state: RootState) => state.user.username);
 
   const isSubmitting = navigation.state === "submitting";
 
@@ -52,7 +55,13 @@ export default function CreateOrder() {
       <Form method="POST" action="/order/new">
         <div>
           <label>First Name</label>
-          <input className="input" type="text" name="customer" required />
+          <input
+            className="input"
+            defaultValue={username}
+            type="text"
+            name="customer"
+            required
+          />
         </div>
 
         <div>
