@@ -7,6 +7,7 @@
 - [Prettier](https://prettier.io/)
 - [Eslint](https://eslint.org/)
 - [asdf](https://asdf-vm.com/)
+- [reselect](https://github.com/reduxjs/reselect)
 
 ## Authors
 
