@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
-type ButtonSize = "small" | "primary" | "secondary";
+type ButtonSize = "small" | "primary" | "secondary" | "round";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
@@ -23,6 +23,7 @@ export default function Button({
   const styles = {
     primary: `${base} px-4 py-3 md:px-6 md:py-4`,
     small: `${base} px-2 py-1 md:px-3 md:py-2 text-sm`,
+    round: `${base} px-1.5 py-1 md:px-3.5 md:py-2 text-sm`,
     secondary: `border-3 border-stone-300 transparent px-4 py-3 md:px-6 md:py-4 uppercase`,
   };
 
