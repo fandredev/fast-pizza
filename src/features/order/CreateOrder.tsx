@@ -8,12 +8,14 @@ import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 import { Cart } from "../cart/Cart";
 import Button from "../../ui/Button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import store, { RootState } from "../../store";
 import { clearCart, getCart, getTotalCartPrice } from "../cart/cartSlice";
 import EmptyCart from "../cart/EmptyCart";
 import { formatCurrency } from "../../utils/helpers";
 import { useState } from "react";
+import { fetchAddress } from "../../utils/geolocation";
+import { AppDispatch } from "../../store";
 
 type FormErrors = {
   phone?: string;
@@ -23,9 +25,19 @@ export default function CreateOrder() {
   const [withPriority, setWithPriority] = useState(false);
   const cart = useSelector(getCart);
 
+  const dispatch: AppDispatch = useDispatch();
+
   const navigation = useNavigation();
   const formErrors = useActionData() as FormErrors;
-  const username = useSelector((state: RootState) => state.user.username);
+  const {
+    username,
+    status: addressStatus,
+    position,
+    address,
+    error: errorAddress,
+  } = useSelector((state: RootState) => state.user);
+
+  const isLoadingAddress = addressStatus === "loading";
   const totalCartPrice = useSelector(getTotalCartPrice);
 
   const priorityPrice = withPriority ? totalCartPrice * 0.2 : 0;
@@ -56,16 +68,46 @@ export default function CreateOrder() {
           <div>
             <input className="input" type="tel" name="phone" required />
           </div>
-          {formErrors?.phone && <div>{formErrors.phone}</div>}
+          {formErrors?.phone && (
+            <p className="mt-3 rounded-md bg-red-100 p-2 text-xs text-red-700">
+              {formErrors.phone}
+            </p>
+          )}
         </div>
 
-        <div>
+        <div className="relative mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
           <label>Address</label>
-          <div>
-            <input className="input" type="text" name="address" required />
+          <div className="grow">
+            <input
+              defaultValue={address}
+              disabled={isLoadingAddress}
+              className="input"
+              type="text"
+              name="address"
+              required
+            />
           </div>
-        </div>
 
+          {!position.latitude && !position.longitude && (
+            <span className="absolute right-[5px] z-50">
+              <Button
+                type="button"
+                size="small"
+                onClick={(e) => {
+                  e.preventDefault();
+                  dispatch(fetchAddress());
+                }}
+              >
+                Get position
+              </Button>
+            </span>
+          )}
+        </div>
+        {addressStatus === "error" && (
+          <p className="mt-3 rounded-md bg-red-100 p-2 text-xs text-red-700">
+            {errorAddress}
+          </p>
+        )}
         <div className="mb-12 mt-6 flex items-center gap-5">
           <input
             type="checkbox"
@@ -80,7 +122,16 @@ export default function CreateOrder() {
 
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <Button size="primary" disabled={isSubmitting}>
+          <input
+            type="hidden"
+            name="position"
+            value={
+              position.longitude && position.latitude
+                ? `${position.latitude},${position.longitude}`
+                : ""
+            }
+          />
+          <Button size="primary" disabled={isSubmitting || isLoadingAddress}>
             {isSubmitting
               ? "Place order..."
               : `Order now from ${formatCurrency(totalPrice)}`}
@@ -101,7 +152,9 @@ export async function action({ request }: { request: Request }) {
     customer: data.customer as string,
     phone: data.phone as string,
     address: data.address as string,
+    position: data.position as string,
   };
+
   const errors = {
     phone: "",
   };
