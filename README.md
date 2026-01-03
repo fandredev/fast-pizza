@@ -1,3 +1,7 @@
+# Screenshots
+
+![Imagem do Projeto Fast React Pizza](readme/image_project.png)
+
 # Stack used
 
 <img src="https://skillicons.dev/icons?i=typescript,react,redux,yarn,git,vite,tailwind,vercel&theme=dark" alt="typescript,react,redux,yarn,git,vite,tailwind,vercel" />
@@ -28,7 +32,7 @@ git clone git@github.com:fandredev/fast-react-pizza.git
 ## Install dependencies
 
 ```
- yarn install
+ yarn
 ```
 
 ## Run server
